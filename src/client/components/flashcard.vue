@@ -1,22 +1,42 @@
 <template>
-    <div>
-        <div @click="isToggle=!isToggle" v-bind:style="{backgroundColor: colorFront, color: colorTextFront}" v-show="!isToggle" class="animated flipInX flashcard">
-            <div class="card-header" style="padding-bottom: 15px;"> {{headerFront}} </div>
-            <div class="card-content center">
-                <p v-bind:style="{fontSize: textSizeFront,fontWeight: 'bold'}">{{front}}</p>
-                <img v-if="imgFront!=''" :src="imgFront" width="200" height="200">
-            </div>
-            <div class="card-footer">{{footerFront}}</div>
-        </div>
-        <div @click="isToggle=!isToggle" v-bind:style="{backgroundColor: colorBack, color: colorTextBack}" v-show="isToggle" class="animated flipInX flashcard">
-            <div class="card-header" style="padding-bottom: 15px;"> {{headerBack}}</div>
-            <div class="card-content center">
-                <p v-bind:style="{fontSize: textSizeBack, fontWeight: 'bold'}">{{back}}</p>
-                <img v-if="imgBack!=''" :src="imgBack" width="200" height="200">
-            </div>
-            <div class="card-footer">{{footerBack}}</div>
-        </div>
+  <div>
+    <div 
+      v-show="!isToggle" 
+      :style="{backgroundColor: colorFront, color: colorTextFront}" 
+      class="animated flipInX flashcard" 
+      @click="isToggle=!isToggle">
+      <div 
+        class="card-header" 
+        style="padding-bottom: 15px;"> {{ headerFront }} </div>
+      <div class="card-content center">
+        <p :style="{fontSize: textSizeFront,fontWeight: 'bold'}">{{ front }}</p>
+        <img 
+          v-if="imgFront!=''" 
+          :src="imgFront" 
+          width="200" 
+          height="200">
+      </div>
+      <div class="card-footer">{{ footerFront }}</div>
     </div>
+    <div 
+      v-show="isToggle" 
+      :style="{backgroundColor: colorBack, color: colorTextBack}" 
+      class="animated flipInX flashcard" 
+      @click="isToggle=!isToggle">
+      <div 
+        class="card-header" 
+        style="padding-bottom: 15px;"> {{ headerBack }}</div>
+      <div class="card-content center">
+        <p :style="{fontSize: textSizeBack, fontWeight: 'bold'}">{{ back }}</p>
+        <img 
+          v-if="imgBack!=''" 
+          :src="imgBack" 
+          width="200" 
+          height="200">
+      </div>
+      <div class="card-footer">{{ footerBack }}</div>
+    </div>
+  </div>
 </template>
 <script>
 export default {
