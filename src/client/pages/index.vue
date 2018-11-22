@@ -2,6 +2,7 @@
   <section class="container">
     <div>
       <logo/>
+      <flashcard/>
       <h1 class="title">
         nuxt-boilerplate
       </h1>
@@ -24,10 +25,12 @@
 
 <script>
 import Logo from '~/components/Logo.vue';
+import Flashcard from '~/components/flashcard.vue';
 
 export default {
   components: {
-    Logo
+    Logo,
+    Flashcard
   }
 };
 </script>
