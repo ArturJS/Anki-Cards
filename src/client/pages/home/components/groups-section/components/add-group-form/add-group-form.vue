@@ -69,37 +69,4 @@ export default {
     outline: 0;
   }
 }
-
-.btn {
-  transition: all 0.25s ease;
-  outline: 0;
-  border-radius: 4px;
-  touch-action: manipulation;
-  cursor: pointer;
-  user-select: none;
-  background-image: none;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  margin-bottom: 0;
-  border: 0;
-  background-color: #1c3866;
-  color: #1c3866;
-  padding: 6px 12px;
-  font: 14px arial;
-  font-weight: 600;
-  line-height: 26px;
-  height: 40px;
-  min-height: 40px;
-
-  &-primary {
-    color: #fcfcfb;
-    background-color: #1c3866;
-
-    &:hover {
-      color: #fcfcfb;
-      background-color: #627593;
-    }
-  }
-}
 </style>
