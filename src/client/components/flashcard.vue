@@ -105,7 +105,7 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .center {
   text-align: center;
 }
@@ -117,10 +117,10 @@ export default {
   padding: 25px;
   box-shadow: 0 0px 10px rgba(0, 0, 0, 0.4);
   text-align: center;
-}
 
-.flashcard:hover {
-  box-shadow: 0 0px 25px rgba(0, 0, 0, 0.8);
+  &:hover {
+    box-shadow: 0 0px 25px rgba(0, 0, 0, 0.8);
+  }
 }
 
 .animated {
