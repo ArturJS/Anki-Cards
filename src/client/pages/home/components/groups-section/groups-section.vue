@@ -1,6 +1,6 @@
 <template>
   <section class="groups-section">
-    <add-group-form @submit="handleAddGroup" />
+    <add-group-form @submit="addGroup" />
     <ul class="groups-list">
       <li 
         v-for="group in groups" 
@@ -11,7 +11,10 @@
         </div>
         <button 
           type="button" 
-          class="btn btn-danger">&times;</button>
+          class="btn btn-danger" 
+          @click="removeGroup(group.id)">
+          &times;
+        </button>
       </li>
     </ul>
   </section>
@@ -30,10 +33,10 @@ export default {
     };
   },
   methods: {
-    handleAddGroup(group) {
+    addGroup(group) {
       this.groups.push(group);
     },
-    handleRemoveGroup(groupId) {
+    removeGroup(groupId) {
       this.groups = this.groups.filter(({ id }) => id !== groupId);
     }
   }
