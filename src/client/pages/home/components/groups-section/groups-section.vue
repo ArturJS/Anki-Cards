@@ -6,7 +6,12 @@
         v-for="group in groups" 
         :key="group.id" 
         class="groups-list__item">
-        {{ group.title }}
+        <div class="groups-list__item-content">
+          {{ group.title }}
+        </div>
+        <button 
+          type="button" 
+          class="btn btn-danger">&times;</button>
       </li>
     </ul>
   </section>
@@ -27,6 +32,9 @@ export default {
   methods: {
     handleAddGroup(group) {
       this.groups.push(group);
+    },
+    handleRemoveGroup(groupId) {
+      this.groups = this.groups.filter(({ id }) => id !== groupId);
     }
   }
 };
@@ -35,6 +43,7 @@ export default {
 <style lang="scss" scoped>
 .groups-section {
   margin: 0 auto;
+  padding: 15px 0;
   max-width: 720px;
 }
 
@@ -43,6 +52,7 @@ export default {
   list-style-type: none;
 
   &__item {
+    display: flex;
     padding: 10px 15px;
     margin-top: 15px;
     border-radius: 3px;
@@ -52,6 +62,13 @@ export default {
 
     &:hover {
       box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    }
+
+    &-content {
+      flex-grow: 1;
+      align-items: center;
+      justify-content: center;
+      display: flex;
     }
   }
 }
