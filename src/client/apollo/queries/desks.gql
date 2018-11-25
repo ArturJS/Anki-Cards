@@ -1,0 +1,6 @@
+query {
+  desks @client {
+    id
+    title
+  }
+}

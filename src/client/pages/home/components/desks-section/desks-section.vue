@@ -21,17 +21,9 @@
 
 <script>
 import gql from 'graphql-tag';
+import desksGql from '~/apollo/queries/desks.gql';
 import ButtonRemove from '~/components/button-remove';
 import AddDeskForm from './components/add-desk-form';
-
-const desksGql = gql`
-  query {
-    desks @client {
-      id
-      title
-    }
-  }
-`;
 
 export default {
   apollo: {
