@@ -7,14 +7,13 @@
         :key="desk.id" 
         class="desks-list__item">
         <div class="desks-list__item-content">
-          <nuxt-link :to="{ name: 'desk-id', params: { id: desk.id } }">
+          <nuxt-link 
+            :to="{ name: 'desk-id', params: { id: desk.id } }" 
+            class="desks-list__item-link">
             {{ desk.title }}
           </nuxt-link>
         </div>
         <button-remove @click="removeDesk(desk.id)" />
-        <!-- <button type="button" class="btn btn-danger" @click="removeDesk(desk.id)">
-          &times;
-        </button> -->
       </li>
     </ul>
   </section>
@@ -74,6 +73,21 @@ export default {
       align-items: center;
       justify-content: center;
       display: flex;
+    }
+
+    &-link {
+      max-width: 10em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-bottom-color 0.25s ease;
+      will-change: border-bottom-color;
+
+      &:hover {
+        border-bottom-color: #7378f1;
+      }
     }
   }
 }
