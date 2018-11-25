@@ -11,23 +11,23 @@
             {{ desk.title }}
           </nuxt-link>
         </div>
-        <button 
-          type="button" 
-          class="btn btn-danger" 
-          @click="removeDesk(desk.id)">
+        <button-remove @click="removeDesk(desk.id)" />
+        <!-- <button type="button" class="btn btn-danger" @click="removeDesk(desk.id)">
           &times;
-        </button>
+        </button> -->
       </li>
     </ul>
   </section>
 </template>
 
 <script>
+import ButtonRemove from '~/components/button-remove';
 import AddDeskForm from './components/add-desk-form';
 
 export default {
   components: {
-    AddDeskForm
+    AddDeskForm,
+    ButtonRemove
   },
   data() {
     return {
