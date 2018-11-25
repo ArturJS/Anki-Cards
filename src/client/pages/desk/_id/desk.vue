@@ -11,10 +11,10 @@ export default {
   components: {
     CardsSection
   },
-  data() {
-    return {
-      deskId: +this.$route.params.id
-    };
+  computed: {
+    deskId() {
+      return +this.$route.params.id;
+    }
   }
 };
 </script>
