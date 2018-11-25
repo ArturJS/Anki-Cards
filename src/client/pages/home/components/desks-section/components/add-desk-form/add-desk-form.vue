@@ -1,18 +1,18 @@
 <template>
   <form 
-    class="add-group-form" 
+    class="add-desk-form" 
     @submit.prevent="handleSubmit">
     <div class="form-field">
       <input 
         v-model="title" 
         class="form-input" 
         type="text" 
-        placeholder="Enter group name">
+        placeholder="Enter desk name">
     </div>
     <button 
       type="submit" 
       class="btn btn-primary">
-      Add group
+      Add desk
     </button>
   </form>
 </template>
@@ -42,7 +42,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.add-group-form {
+.add-desk-form {
   display: flex;
 }
 

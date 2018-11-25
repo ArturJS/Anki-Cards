@@ -1,15 +1,15 @@
 <template>
   <section class="container">
-    <groups-section />
+    <desks-section />
   </section>
 </template>
 
 <script>
-import GroupsSection from './components/groups-section';
+import DesksSection from './components/desks-section';
 
 export default {
   components: {
-    GroupsSection
+    DesksSection
   }
 };
 </script>

@@ -1,18 +1,18 @@
 <template>
-  <section class="groups-section">
-    <add-group-form @submit="addGroup" />
-    <ul class="groups-list">
+  <section class="desks-section">
+    <add-desk-form @submit="addDesk" />
+    <ul class="desks-list">
       <li 
-        v-for="group in groups" 
-        :key="group.id" 
-        class="groups-list__item">
-        <div class="groups-list__item-content">
-          {{ group.title }}
+        v-for="desk in desks" 
+        :key="desk.id" 
+        class="desks-list__item">
+        <div class="desks-list__item-content">
+          {{ desk.title }}
         </div>
         <button 
           type="button" 
           class="btn btn-danger" 
-          @click="removeGroup(group.id)">
+          @click="removeDesk(desk.id)">
           &times;
         </button>
       </li>
@@ -21,36 +21,36 @@
 </template>
 
 <script>
-import AddGroupForm from './components/add-group-form';
+import AddDeskForm from './components/add-desk-form';
 
 export default {
   components: {
-    AddGroupForm
+    AddDeskForm
   },
   data() {
     return {
-      groups: []
+      desks: []
     };
   },
   methods: {
-    addGroup(group) {
-      this.groups.push(group);
+    addDesk(desk) {
+      this.desks.push(desk);
     },
-    removeGroup(groupId) {
-      this.groups = this.groups.filter(({ id }) => id !== groupId);
+    removeDesk(deskId) {
+      this.desks = this.desks.filter(({ id }) => id !== deskId);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.groups-section {
+.desks-section {
   margin: 0 auto;
   padding: 15px 0;
   max-width: 720px;
 }
 
-.groups-list {
+.desks-list {
   padding: 0;
   list-style-type: none;
 
