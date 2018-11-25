@@ -1,0 +1,23 @@
+.form-input {
+  box-shadow: none;
+  outline: 0;
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 16px;
+  color: #333;
+  background-color: #fcfcfb;
+  background-image: none;
+  border: 1px solid #c7c7c7;
+  border-radius: 3px;
+  font-family: sans-serif;
+  -webkit-appearance: none;
+  height: 40px;
+  transition: border-color 0.25s ease;
+  will-change: border-color;
+
+  &:focus {
+    border-color: #333;
+    outline: 0;
+  }
+}
