@@ -11,7 +11,6 @@
           :header-back="card.answer" />
       </li>
     </ul>
-    <flashcard />
   </section>
 </template>
 
