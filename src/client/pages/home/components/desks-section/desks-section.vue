@@ -25,7 +25,7 @@ import ButtonRemove from '~/components/button-remove';
 import AddDeskForm from './components/add-desk-form';
 
 const desksGql = gql`
-  {
+  query {
     desks @client {
       id
       title
@@ -45,24 +45,26 @@ export default {
   },
   methods: {
     addDesk(desk) {
-      this.$apolloProvider.defaultClient.writeQuery({
-        query: desksGql,
-        data: {
-          desks: [
-            ...this.desks,
-            {
-              ...desk,
-              __typename: 'Desk'
-            }
-          ]
+      this.$apollo.mutate({
+        mutation: gql`
+          mutation($desk: Desk!) {
+            addDesk(desk: $desk) @client
+          }
+        `,
+        variables: {
+          desk
         }
       });
     },
     removeDesk(deskId) {
-      this.$apolloProvider.defaultClient.writeQuery({
-        query: desksGql,
-        data: {
-          desks: this.desks.filter(({ id }) => id !== deskId)
+      this.$apollo.mutate({
+        mutation: gql`
+          mutation($id: Int!) {
+            removeDesk(id: $id) @client
+          }
+        `,
+        variables: {
+          id: deskId
         }
       });
     }
