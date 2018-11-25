@@ -7,7 +7,9 @@
         :key="desk.id" 
         class="desks-list__item">
         <div class="desks-list__item-content">
-          {{ desk.title }}
+          <nuxt-link :to="{ name: 'desk-id', params: { id: desk.id } }">
+            {{ desk.title }}
+          </nuxt-link>
         </div>
         <button 
           type="button" 
