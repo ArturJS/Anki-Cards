@@ -8,6 +8,9 @@
       <div 
         class="card-header" 
         style="padding-bottom: 15px;"> {{ headerFront }} </div>
+      <div class="center">
+        <button-remove @click="handleRemove" />
+      </div>
       <div class="card-content center">
         <p :style="{fontSize: textSizeFront,fontWeight: 'bold'}">{{ front }}</p>
         <img 
@@ -39,8 +42,17 @@
   </div>
 </template>
 <script>
+import ButtonRemove from '~/components/button-remove';
+
 export default {
+  components: {
+    ButtonRemove
+  },
   props: {
+    id: {
+      type: Number,
+      required: true
+    },
     imgFront: {
       type: String,
       default: ''
@@ -102,6 +114,11 @@ export default {
     return {
       isToggle: false
     };
+  },
+  methods: {
+    handleRemove() {
+      this.$emit('remove', this.id);
+    }
   }
 };
 </script>

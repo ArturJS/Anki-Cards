@@ -8,7 +8,9 @@
         :key="card.id">
         <flashcard 
           :header-front="card.question" 
-          :header-back="card.answer" />
+          :header-back="card.answer" 
+          :id="card.id" 
+          @remove="removeCard" />
       </li>
     </ul>
   </section>
@@ -58,7 +60,16 @@ export default {
       });
     },
     removeCard(cardId) {
-      // todo implement
+      this.$apollo.mutate({
+        mutation: gql`
+          mutation($id: Int!) {
+            removeCard(id: $id) @client
+          }
+        `,
+        variables: {
+          id: cardId
+        }
+      });
     }
   }
 };
