@@ -1,4 +1,5 @@
-import desksGql from '../../queries/desks.gql';
+import cardsGql from '~/apollo/queries/cards.gql';
+import desksGql from '~/apollo/queries/desks.gql';
 
 export const desksMutations = {
   addDesk: (_, { desk }, { cache }) => {
@@ -30,6 +31,16 @@ export const desksMutations = {
       query: desksGql,
       data: {
         desks: desks.filter(desk => desk.id !== id)
+      }
+    });
+
+    cache.writeQuery({
+      query: cardsGql,
+      variables: {
+        deskId: id
+      },
+      data: {
+        cards: []
       }
     });
 
