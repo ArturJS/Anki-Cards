@@ -2,7 +2,7 @@
   <div 
     class="button-remove" 
     tabindex="0" 
-    @click="removeProtection" 
+    @click.stop="removeProtection" 
     @mouseleave.self="addProtection" 
     @blur.self="addProtection">
     <div 
@@ -12,7 +12,7 @@
     </div>
     <div 
       class="button-remove__confirmation" 
-      @click="triggerClick">
+      @click.stop="triggerClick">
       Sure?
     </div>
   </div>

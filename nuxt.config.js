@@ -36,5 +36,11 @@ module.exports = {
   /*
   ** Nuxt.js modules
   */
-  modules: []
+  modules: ['@nuxtjs/apollo'],
+
+  apollo: {
+    clientConfigs: {
+      default: '~/apollo/index.js'
+    }
+  }
 };

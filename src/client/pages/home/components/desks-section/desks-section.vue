@@ -20,25 +20,45 @@
 </template>
 
 <script>
+import gql from 'graphql-tag';
+import desksGql from '~/apollo/queries/desks.gql';
 import ButtonRemove from '~/components/button-remove';
 import AddDeskForm from './components/add-desk-form';
 
 export default {
+  apollo: {
+    desks: {
+      query: desksGql
+    }
+  },
   components: {
     AddDeskForm,
     ButtonRemove
   },
-  data() {
-    return {
-      desks: []
-    };
-  },
   methods: {
     addDesk(desk) {
-      this.desks.push(desk);
+      this.$apollo.mutate({
+        mutation: gql`
+          mutation($desk: Desk!) {
+            addDesk(desk: $desk) @client
+          }
+        `,
+        variables: {
+          desk
+        }
+      });
     },
     removeDesk(deskId) {
-      this.desks = this.desks.filter(({ id }) => id !== deskId);
+      this.$apollo.mutate({
+        mutation: gql`
+          mutation($id: Int!) {
+            removeDesk(id: $id) @client
+          }
+        `,
+        variables: {
+          id: deskId
+        }
+      });
     }
   }
 };
