@@ -2,10 +2,6 @@ import cardsGql from '~/apollo/queries/cards.gql';
 
 export const cardsQueries = {
   cards: (_, { deskId }, { cache }) => {
-    if (process.browser) {
-      console.log('cache', cache);
-    }
-
     return [];
   }
 };
