@@ -15,10 +15,22 @@
 </template>
 
 <script>
+import gql from 'graphql-tag';
+import cardsGql from '~/apollo/queries/cards.gql';
 import AddCardForm from './components/add-card-form';
 import Flashcard from './components/flashcard';
 
 export default {
+  apollo: {
+    cards: {
+      query: cardsGql,
+      variables() {
+        return {
+          deskId: this.deskId
+        };
+      }
+    }
+  },
   components: {
     AddCardForm,
     Flashcard
@@ -29,17 +41,24 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      cards: []
-    };
-  },
   methods: {
     addCard(card) {
-      this.cards.push(card);
+      this.$apollo.mutate({
+        mutation: gql`
+          mutation($card: Card!) {
+            addCard(card: $card) @client
+          }
+        `,
+        variables: {
+          card: {
+            ...card,
+            deskId: this.deskId
+          }
+        }
+      });
     },
     removeCard(cardId) {
-      this.cards = this.cards.filter(({ id }) => id !== cardId);
+      // todo implement
     }
   }
 };

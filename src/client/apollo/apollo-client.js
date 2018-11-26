@@ -6,7 +6,8 @@ import resolvers from './resolvers';
 
 const cache = new InMemoryCache();
 const defaultClientState = {
-  desks: []
+  desks: [],
+  cards: []
 };
 
 if (process.browser) {
@@ -27,6 +28,13 @@ export default ctx => {
         defaults: defaultClientState,
         resolvers,
         typeDefs: `
+              type Card {
+                id: Int!
+                deskId: Int!
+                question: String!
+                answer: String!
+              }
+
               type Desk {
                 id: Int!
                 title: String!
@@ -38,6 +46,7 @@ export default ctx => {
               }
       
               type Query {
+                cards: [Card]
                 desks: [Desk]
               }
             `
