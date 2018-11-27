@@ -1,46 +1,25 @@
 <template>
   <div>
-    <div 
-      v-show="!isToggle" 
-      :style="{backgroundColor: colorFront, color: colorTextFront}" 
-      class="animated flipInX flashcard" 
-      @click="isToggle=!isToggle">
-      <div 
-        class="card-header" 
-        style="padding-bottom: 15px;"> {{ headerFront }} </div>
+    <div
+      v-show="!isToggle"
+      class="animated flipInX flashcard flashcard__front-side"
+      @click="toggleSide()"
+    >
+      <div class="card-header"> {{ question }} </div>
       <div class="center">
         <button-remove @click="handleRemove" />
       </div>
-      <div class="card-content center">
-        <p :style="{fontSize: textSizeFront,fontWeight: 'bold'}">{{ front }}</p>
-        <img 
-          v-if="imgFront!=''" 
-          :src="imgFront" 
-          width="200" 
-          height="200">
-      </div>
-      <div class="card-footer">{{ footerFront }}</div>
     </div>
-    <div 
-      v-show="isToggle" 
-      :style="{backgroundColor: colorBack, color: colorTextBack}" 
-      class="animated flipInX flashcard" 
-      @click="isToggle=!isToggle">
-      <div 
-        class="card-header" 
-        style="padding-bottom: 15px;"> {{ headerBack }}</div>
-      <div class="card-content center">
-        <p :style="{fontSize: textSizeBack, fontWeight: 'bold'}">{{ back }}</p>
-        <img 
-          v-if="imgBack!=''" 
-          :src="imgBack" 
-          width="200" 
-          height="200">
-      </div>
-      <div class="card-footer">{{ footerBack }}</div>
+    <div
+      v-show="isToggle"
+      class="animated flipInX flashcard flashcard__back-side"
+      @click="toggleSide()"
+    >
+      <div class="card-header"> {{ answer }}</div>
     </div>
   </div>
 </template>
+
 <script>
 import ButtonRemove from '~/components/button-remove';
 
@@ -53,61 +32,13 @@ export default {
       type: Number,
       required: true
     },
-    imgFront: {
+    question: {
       type: String,
-      default: ''
+      required: true
     },
-    imgBack: {
+    answer: {
       type: String,
-      default: ''
-    },
-    front: {
-      type: String,
-      default: ''
-    },
-    back: {
-      type: String,
-      default: ''
-    },
-    textSizeFront: {
-      type: String,
-      default: '2em'
-    },
-    textSizeBack: {
-      type: String,
-      default: '2em'
-    },
-    colorTextFront: {
-      type: String,
-      default: 'black'
-    },
-    colorTextBack: {
-      type: String,
-      default: 'white'
-    },
-    colorFront: {
-      type: String,
-      default: 'white'
-    },
-    colorBack: {
-      type: String,
-      default: '#2ecc71'
-    },
-    headerFront: {
-      type: String,
-      default: 'Do you know?'
-    },
-    headerBack: {
-      type: String,
-      default: 'Answer'
-    },
-    footerFront: {
-      type: String,
-      default: 'Click to show Back'
-    },
-    footerBack: {
-      type: String,
-      default: 'Click to show Front'
+      required: true
     }
   },
   data() {
@@ -116,15 +47,21 @@ export default {
     };
   },
   methods: {
+    toggleSide() {
+      this.isToggle = !this.isToggle;
+    },
     handleRemove() {
       this.$emit('remove', this.id);
     }
   }
 };
 </script>
+
 <style lang="scss" scoped>
 .center {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .flashcard {
@@ -138,6 +75,21 @@ export default {
   &:hover {
     box-shadow: 0 0px 25px rgba(0, 0, 0, 0.8);
   }
+
+  &__front-side {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  &__back-side {
+    background-color: #2ecc71;
+    color: #ffffff;
+  }
+}
+
+.card-header {
+  padding-bottom: 15px;
+  font-size: 2em;
 }
 
 .animated {

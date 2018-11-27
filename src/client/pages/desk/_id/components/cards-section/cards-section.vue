@@ -3,14 +3,16 @@
     <add-card-form @submit="addCard" />
     Desk id: {{ deskId }}
     <ul class="list-unstyled">
-      <li 
-        v-for="card in cards" 
-        :key="card.id">
-        <flashcard 
-          :header-front="card.question" 
-          :header-back="card.answer" 
-          :id="card.id" 
-          @remove="removeCard" />
+      <li
+        v-for="card in cards"
+        :key="card.id"
+      >
+        <flashcard
+          :id="card.id"
+          :question="card.question"
+          :answer="card.answer"
+          @remove="removeCard"
+        />
       </li>
     </ul>
   </section>
