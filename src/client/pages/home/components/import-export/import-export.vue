@@ -26,7 +26,7 @@ export default {
       };
       const jsonExportPayload = JSON.stringify(exportPayload, null, '    ');
       const blob = new Blob([jsonExportPayload], {
-        type: 'text/plain;charset=utf-8'
+        type: 'application/json;charset=utf-8'
       });
 
       FileSaver.saveAs(blob, 'Anki-Cards-data.json');
