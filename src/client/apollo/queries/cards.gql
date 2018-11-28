@@ -1,4 +1,4 @@
-query($deskId: Int!) {
+query($deskId: Int) {
   cards(deskId: $deskId) @client {
     id
     deskId

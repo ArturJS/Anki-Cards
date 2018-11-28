@@ -1,15 +1,18 @@
 <template>
   <section class="container">
+    <import-export />
     <desks-section />
   </section>
 </template>
 
 <script>
 import DesksSection from './components/desks-section';
+import ImportExport from './components/import-export';
 
 export default {
   components: {
-    DesksSection
+    DesksSection,
+    ImportExport
   }
 };
 </script>
