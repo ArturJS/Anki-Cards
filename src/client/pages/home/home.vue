@@ -16,7 +16,10 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  min-height: 100vh;
   display: flex;
+  flex-direction: column;
+  max-width: 450px;
+  margin: 0 auto;
+  min-height: 100vh;
 }
 </style>

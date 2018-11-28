@@ -2,14 +2,16 @@
   <section class="desks-section">
     <add-desk-form @submit="addDesk" />
     <ul class="desks-list">
-      <li 
-        v-for="desk in desks" 
-        :key="desk.id" 
-        class="desks-list__item">
+      <li
+        v-for="desk in desks"
+        :key="desk.id"
+        class="desks-list__item"
+      >
         <div class="desks-list__item-content">
-          <nuxt-link 
-            :to="{ name: 'desk-id', params: { id: desk.id } }" 
-            class="desks-list__item-link">
+          <nuxt-link
+            :to="{ name: 'desk-id', params: { id: desk.id } }"
+            class="desks-list__item-link"
+          >
             {{ desk.title }}
           </nuxt-link>
         </div>
@@ -68,7 +70,7 @@ export default {
 .desks-section {
   margin: 0 auto;
   padding: 15px 0;
-  max-width: 720px;
+  width: 100%;
 }
 
 .desks-list {
