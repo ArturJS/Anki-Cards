@@ -18,11 +18,29 @@ import cardsGql from '~/apollo/queries/cards.gql';
 export default {
   methods: {
     async exportData() {
-      const { data } = await this.$apollo.query({
-        query: desksGql
-      });
+      const [
+        {
+          data: { desks }
+        },
+        {
+          data: { cards }
+        }
+      ] = await Promise.all([
+        this.$apollo.query({
+          query: desksGql
+        }),
+        this.$apollo.query({
+          query: cardsGql
+        })
+      ]);
       const exportPayload = {
-        desks: data.desks.map(({ id, title }) => ({ id, title }))
+        desks: desks.map(({ id, title }) => ({ id, title })),
+        cards: cards.map(({ id, deskId, question, answer }) => ({
+          id,
+          deskId,
+          question,
+          answer
+        }))
       };
       const jsonExportPayload = JSON.stringify(exportPayload, null, '    ');
       const blob = new Blob([jsonExportPayload], {

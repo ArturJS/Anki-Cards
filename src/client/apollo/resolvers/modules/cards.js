@@ -2,7 +2,15 @@ import cardsGql from '~/apollo/queries/cards.gql';
 
 export const cardsQueries = {
   cards: (_, { deskId }, { cache }) => {
-    return [];
+    const allCards = Object.entries(cache.data.data)
+      .filter(([key]) => key.indexOf('Card:') === 0)
+      .map(([, value]) => value);
+
+    if (!deskId) {
+      return allCards;
+    }
+
+    return allCards.filter(card => card.deskId === deskId);
   }
 };
 
