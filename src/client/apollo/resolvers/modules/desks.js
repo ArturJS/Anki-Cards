@@ -1,11 +1,35 @@
 import cardsGql from '~/apollo/queries/cards.gql';
 import desksGql from '~/apollo/queries/desks.gql';
 
+export const desksQueries = {
+  desks: (_, valiables, { cache }) => {
+    const allDesks = Object.entries(cache.data.data)
+      .filter(([key]) => key.indexOf('Desk:') === 0)
+      .map(([, value]) => value);
+
+    return allDesks;
+  }
+};
+
 export const desksMutations = {
-  addDesk: (_, { desk }, { cache }) => {
-    const { desks } = cache.readQuery({
-      query: desksGql
+  buldAddDesks: (_, { desks }, { cache }) => {
+    cache.writeQuery({
+      query: desksGql,
+      data: {
+        desks: desks.map(desk => ({
+          ...desk,
+          __typename: 'Desk'
+        }))
+      }
     });
+
+    return null;
+  },
+
+  addDesk: (_, { desk }, { cache }) => {
+    const desks = Object.entries(cache.data.data)
+      .filter(([key]) => key.includes('Desk:'))
+      .map(([, desk]) => desk);
 
     cache.writeQuery({
       query: desksGql,
@@ -22,10 +46,11 @@ export const desksMutations = {
 
     return null;
   },
+
   removeDesk: (_, { id }, { cache }) => {
-    const { desks } = cache.readQuery({
-      query: desksGql
-    });
+    const desks = Object.entries(cache.data.data)
+      .filter(([key]) => key.includes('Desk:'))
+      .map(([, desk]) => desk);
     const updateQueries = (desks, deskId) => {
       cache.writeQuery({
         query: desksGql,
@@ -50,6 +75,11 @@ export const desksMutations = {
         .map(([, card]) => card)
         .filter(card => card.deskId === id);
       const deskToRemove = desks.find(desk => desk.id === id);
+
+      if (!deskToRemove) {
+        return null;
+      }
+
       const entitiesToRemove = [...cardsToRemove, deskToRemove];
 
       entitiesToRemove.forEach(item => {

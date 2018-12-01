@@ -1,9 +1,10 @@
 import { cardsQueries, cardsMutations } from './modules/cards';
-import { desksMutations } from './modules/desks';
+import { desksQueries, desksMutations } from './modules/desks';
 
 const resolvers = {
   Query: {
-    ...cardsQueries
+    ...cardsQueries,
+    ...desksQueries
   },
   Mutation: {
     ...cardsMutations,

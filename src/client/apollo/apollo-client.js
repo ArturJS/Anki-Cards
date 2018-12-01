@@ -46,7 +46,7 @@ export default ctx => {
               }
       
               type Query {
-                cards: [Card]
+                cards(deskId: Int): [Card]
                 desks: [Desk]
               }
             `
