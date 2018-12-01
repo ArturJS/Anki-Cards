@@ -1,5 +1,26 @@
 import cardsGql from '~/apollo/queries/cards.gql';
 
+// todo make apollo-client-resolvers npm module
+
+// read operation
+const createCacheReader = ({ idField, typename }) => (
+  _,
+  variables,
+  { cache }
+) => {
+  const allItems = Object.entries(cache.data.data)
+    .filter(([key]) => key.indexOf(`${typename}:`) === 0)
+    .map(([, value]) => value);
+
+  if (!variables || !variables[idField]) {
+    return allItems;
+  }
+
+  const id = variables[idField];
+
+  return allItems.filter(item => item[idField] === id);
+};
+
 export const cardsQueries = {
   cards: (_, { deskId }, { cache }) => {
     const allCards = Object.entries(cache.data.data)
@@ -15,13 +36,25 @@ export const cardsQueries = {
 };
 
 export const cardsMutations = {
-  addCard: (_, { card }, { cache }) => {
-    const { cards } = cache.readQuery({
+  bulkAddCards: (_, { cards }, { cache }) => {
+    cache.writeQuery({
       query: cardsGql,
-      variables: {
-        deskId: card.deskId
+      data: {
+        cards: cards.map(card => ({
+          ...card,
+          __typename: 'Card'
+        }))
       }
     });
+
+    return null;
+  },
+
+  addCard: (_, { card }, { cache }) => {
+    const cards = Object.entries(cache.data.data)
+      .filter(([key]) => key.indexOf('Card:') === 0)
+      .map(([, value]) => value)
+      .filter(({ deskId }) => deskId === card.deskId);
 
     cache.writeQuery({
       query: cardsGql,
@@ -41,6 +74,7 @@ export const cardsMutations = {
 
     return null;
   },
+
   removeCard: (_, { id }, { cache }) => {
     // todo use generic way to handle CRUD in mutations and queries
     const cards = Object.entries(cache.data.data)
@@ -52,13 +86,16 @@ export const cardsMutations = {
       return null;
     }
 
+    const { deskId } = cardToRemove;
+    const cardsForRelatedDesk = cards.filter(card => card.deskId === deskId);
+
     cache.writeQuery({
       query: cardsGql,
       variables: {
         deskId: cardToRemove.deskId
       },
       data: {
-        cards: cards.filter(card => card.id !== id)
+        cards: cardsForRelatedDesk.filter(card => card.id !== id)
       }
     });
 

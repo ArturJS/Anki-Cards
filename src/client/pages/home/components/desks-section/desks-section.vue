@@ -30,7 +30,8 @@ import AddDeskForm from './components/add-desk-form';
 export default {
   apollo: {
     desks: {
-      query: desksGql
+      query: desksGql,
+      fetchPolicy: 'no-cache'
     }
   },
   components: {

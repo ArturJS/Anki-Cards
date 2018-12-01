@@ -32,7 +32,8 @@ export default {
         return {
           deskId: this.deskId
         };
-      }
+      },
+      fetchPolicy: 'no-cache'
     }
   },
   components: {
