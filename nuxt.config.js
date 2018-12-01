@@ -5,6 +5,23 @@ module.exports = {
 
   srcDir: 'src/client',
 
+  build: {
+    babel: {
+      plugins: [
+        [
+          'module-resolver',
+          {
+            root: ['./'],
+            alias: {
+              'apollo-client-resolvers':
+                './local_modules/apollo-client-resolvers'
+            }
+          }
+        ]
+      ]
+    }
+  },
+
   /*
   ** Headers of the page
   */
