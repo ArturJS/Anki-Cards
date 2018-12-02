@@ -5,15 +5,21 @@ const difference = (a, b) => {
 
 const getDataIdFromObject = ({ id, __typename }) => `${__typename}:${id}`;
 
+const isObject = item => typeof item === 'object' && item !== null;
+
+const isApolloObject = item => item && item.id && item.__typename;
+
 const extractIdsFromData = data => {
   return Object.values(data).reduce((collectedIds, item) => {
-    if (Array.isArray(item)) {
-      return [...collectedIds, ...extractIdsFromData(item)];
-    } else if (item && item.id && item.__typename) {
-      return [...collectedIds, getDataIdFromObject(item)];
+    let extractedIds = [];
+
+    if (isApolloObject(item)) {
+      extractedIds = [getDataIdFromObject(item)];
+    } else if (Array.isArray(item) || isObject(item)) {
+      extractedIds = extractIdsFromData(item);
     }
 
-    return collectedIds;
+    return [...collectedIds, ...extractedIds];
   }, []);
 };
 

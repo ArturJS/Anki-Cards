@@ -20,7 +20,7 @@ export const createReaderResolver = ({ idField, typename }) => (
 export const createWriterResolver = ({
   selector = ({ cacheData }) => cacheData,
   updater
-}) => (_, variables, { cache }) => {
+}) => async (_, variables, { cache }) => {
   const selectedData = selector({
     cacheData: cache.data.data,
     variables
@@ -48,7 +48,12 @@ export const createWriterResolver = ({
     const isAbsentQueryInCache =
       error.message.indexOf(`Can't find field`) === 0;
 
-    if (!isAbsentQueryInCache) {
+    if (isAbsentQueryInCache) {
+      prevData = await cache.getApolloClient().query({
+        query: queryToUpdate,
+        variables: queryVariables
+      });
+    } else {
       console.error(error);
     }
   }
@@ -69,7 +74,7 @@ export const createWriterResolver = ({
 /**
  * Currently it works only for mutations
  */
-export const combineResolvers = resolves => (_, variables, { cache }) => {
+export const combineResolvers = (...resolves) => (_, variables, { cache }) => {
   resolves.forEach(resolver => {
     resolver(_, variables, { cache });
   });
