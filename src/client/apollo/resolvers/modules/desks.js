@@ -1,97 +1,106 @@
+import {
+  combineResolvers,
+  createReaderResolver,
+  createWriterResolver,
+  getAllByType
+} from 'apollo-client-resolvers';
 import cardsGql from '~/apollo/queries/cards.gql';
 import desksGql from '~/apollo/queries/desks.gql';
 
 export const desksQueries = {
-  desks: (_, valiables, { cache }) => {
-    const allDesks = Object.entries(cache.data.data)
-      .filter(([key]) => key.indexOf('Desk:') === 0)
-      .map(([, value]) => value);
-
-    return allDesks;
-  }
+  desks: createReaderResolver({
+    typename: 'Desk'
+  })
 };
 
 export const desksMutations = {
-  buldAddDesks: (_, { desks }, { cache }) => {
-    cache.writeQuery({
-      query: desksGql,
-      data: {
-        desks: desks.map(desk => ({
-          ...desk,
-          __typename: 'Desk'
-        }))
-      }
-    });
-
-    return null;
-  },
-
-  addDesk: (_, { desk }, { cache }) => {
-    const desks = Object.entries(cache.data.data)
-      .filter(([key]) => key.includes('Desk:'))
-      .map(([, desk]) => desk);
-
-    cache.writeQuery({
-      query: desksGql,
-      data: {
-        desks: [
-          ...desks,
-          {
-            ...desk,
-            __typename: 'Desk'
-          }
-        ]
-      }
-    });
-
-    return null;
-  },
-
-  removeDesk: (_, { id }, { cache }) => {
-    const desks = Object.entries(cache.data.data)
-      .filter(([key]) => key.includes('Desk:'))
-      .map(([, desk]) => desk);
-    const updateQueries = (desks, deskId) => {
-      cache.writeQuery({
+  buldAddDesks: createWriterResolver({
+    updater({ variables: { desks } }) {
+      return {
         query: desksGql,
         data: {
-          desks: desks.filter(desk => desk.id !== id)
+          desks: desks.map(desk => ({
+            ...desk,
+            __typename: 'Desk'
+          }))
         }
-      });
+      };
+    }
+  }),
 
-      cache.writeQuery({
-        query: cardsGql,
-        variables: {
-          deskId: id
-        },
+  addDesk: createWriterResolver({
+    selector({ cacheData }) {
+      return getAllByType({ data: cacheData, type: 'Desk' });
+    },
+    updater({ selectedData: desks, variables: { desk } }) {
+      return {
+        query: desksGql,
         data: {
-          cards: []
+          desks: [
+            ...desks,
+            {
+              ...desk,
+              __typename: 'Desk'
+            }
+          ]
         }
-      });
-    };
-    const removeFromCache = (desks, deskId) => {
-      const cardsToRemove = Object.entries(cache.data.data)
-        .filter(([key]) => key.includes('Card:'))
-        .map(([, card]) => card)
-        .filter(card => card.deskId === id);
-      const deskToRemove = desks.find(desk => desk.id === id);
+      };
+    }
+  }),
 
-      if (!deskToRemove) {
-        return null;
+  removeDesk: combineResolvers(
+    // first remove related cards
+    createWriterResolver({
+      selector({ cacheData, variables: { id: deskId } }) {
+        const allDesks = getAllByType({ data: cacheData, type: 'Desk' });
+
+        return {
+          deskToRemove: allDesks.find(desk => desk.id === deskId)
+        };
+      },
+      updater({ selectedData: { deskToRemove }, variables: { id: deskId } }) {
+        if (!deskToRemove) {
+          return;
+        }
+
+        return {
+          query: cardsGql,
+          variables: {
+            deskId
+          },
+          data: {
+            cards: []
+          }
+        };
       }
+    }),
 
-      const entitiesToRemove = [...cardsToRemove, deskToRemove];
+    // and then remove desk by id
+    createWriterResolver({
+      selector({ cacheData, variables: { id: deskId } }) {
+        const allDesks = getAllByType({ data: cacheData, type: 'Desk' });
+        const deskToRemove = allDesks.find(desk => desk.id === deskId);
 
-      entitiesToRemove.forEach(item => {
-        const itemCacheId = `${item.__typename}:${item.id}`;
+        return {
+          allDesks,
+          deskToRemove
+        };
+      },
+      updater({
+        selectedData: { allDesks, deskToRemove },
+        variables: { id: deskId }
+      }) {
+        if (!deskToRemove) {
+          return;
+        }
 
-        cache.data.delete(itemCacheId);
-      });
-    };
-
-    updateQueries(desks, id);
-    removeFromCache(desks, id);
-
-    return null;
-  }
+        return {
+          query: desksGql,
+          data: {
+            desks: allDesks.filter(desk => desk.id !== deskId)
+          }
+        };
+      }
+    })
+  )
 };
