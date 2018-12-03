@@ -1,5 +1,5 @@
-import { cardsQueries, cardsMutations } from './modules/cards';
-import { desksQueries, desksMutations } from './modules/desks';
+import { cardsQueries, cardsMutations } from './modules/cards/cards.resolvers';
+import { desksQueries, desksMutations } from './modules/desks/desks.resolvers';
 
 const resolvers = {
   Query: {

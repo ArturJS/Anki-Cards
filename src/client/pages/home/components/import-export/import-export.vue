@@ -23,8 +23,8 @@
 
 <script>
 import gql from 'graphql-tag';
-import desksGql from '~/apollo/queries/desks.gql';
-import cardsGql from '~/apollo/queries/cards.gql';
+import desksGql from '~/apollo/modules/desks/desks.gql';
+import cardsGql from '~/apollo/modules/cards/cards.gql';
 import { importFile, exportFile } from './utils';
 
 export default {

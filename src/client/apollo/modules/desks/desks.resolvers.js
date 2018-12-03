@@ -4,8 +4,8 @@ import {
   createWriterResolver,
   getAllByType
 } from 'apollo-client-resolvers';
-import cardsGql from '~/apollo/queries/cards.gql';
-import desksGql from '~/apollo/queries/desks.gql';
+import cardsGql from '~/apollo/modules/cards/cards.gql';
+import desksGql from './desks.gql';
 
 export const desksQueries = {
   desks: createReaderResolver({

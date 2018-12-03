@@ -20,7 +20,7 @@
 
 <script>
 import gql from 'graphql-tag';
-import cardsGql from '~/apollo/queries/cards.gql';
+import cardsGql from '~/apollo/modules/cards/cards.gql';
 import AddCardForm from './components/add-card-form';
 import Flashcard from './components/flashcard';
 

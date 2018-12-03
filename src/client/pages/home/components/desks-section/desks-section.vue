@@ -23,7 +23,7 @@
 
 <script>
 import gql from 'graphql-tag';
-import desksGql from '~/apollo/queries/desks.gql';
+import desksGql from '~/apollo/modules/desks/desks.gql';
 import ButtonRemove from '~/components/button-remove';
 import AddDeskForm from './components/add-desk-form';
 

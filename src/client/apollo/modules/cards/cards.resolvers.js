@@ -3,7 +3,7 @@ import {
   createWriterResolver,
   getAllByType
 } from 'apollo-client-resolvers';
-import cardsGql from '~/apollo/queries/cards.gql';
+import cardsGql from './cards.gql';
 
 export const cardsQueries = {
   cards: createReaderResolver({
