@@ -1,3 +1,5 @@
+const fs = require('fs');
+const babelConfig = JSON.parse(fs.readFileSync('./.babelrc'));
 const pkg = require('./package');
 
 module.exports = {
@@ -6,20 +8,7 @@ module.exports = {
   srcDir: 'src/client',
 
   build: {
-    babel: {
-      plugins: [
-        [
-          'module-resolver',
-          {
-            root: ['./'],
-            alias: {
-              'apollo-client-resolvers':
-                './local_modules/apollo-client-resolvers'
-            }
-          }
-        ]
-      ]
-    }
+    babel: babelConfig
   },
 
   /*
