@@ -5,7 +5,7 @@ const pkg = require('./package');
 module.exports = {
   mode: 'universal',
 
-  srcDir: 'src/client',
+  srcDir: 'client',
 
   build: {
     babel: babelConfig
