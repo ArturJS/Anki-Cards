@@ -1,23 +1,28 @@
 <template>
-  <form 
-    class="add-desk-form" 
-    @submit.prevent="handleSubmit">
+  <form
+    class="add-desk-form"
+    @submit.prevent="handleSubmit"
+  >
     <div class="form-field">
-      <input 
-        v-model="title" 
-        class="form-input" 
-        type="text" 
-        placeholder="Enter desk name">
+      <input
+        v-model="title"
+        class="form-input"
+        type="text"
+        placeholder="Enter desk name"
+      >
     </div>
-    <button 
-      type="submit" 
-      class="btn btn-primary">
+    <button
+      type="submit"
+      class="btn btn-primary"
+    >
       Add desk
     </button>
   </form>
 </template>
 
 <script>
+import nanoId from 'nano-id';
+
 export default {
   data() {
     return {
@@ -31,7 +36,7 @@ export default {
       }
 
       this.$emit('submit', {
-        id: Math.random(),
+        id: nanoId(),
         title: this.title
       });
 

@@ -42,7 +42,7 @@ export default {
   },
   props: {
     deskId: {
-      type: Number,
+      type: String,
       required: true
     }
   },
@@ -65,7 +65,7 @@ export default {
     removeCard(cardId) {
       this.$apollo.mutate({
         mutation: gql`
-          mutation($id: Int!) {
+          mutation($id: ID!) {
             removeCard(id: $id) @client
           }
         `,

@@ -45,24 +45,24 @@ export default ctx => {
         resolvers,
         typeDefs: `
               type Card {
-                id: Int!
-                deskId: Int!
+                id: ID!
+                deskId: ID!
                 question: String!
                 answer: String!
               }
 
               type Desk {
-                id: Int!
+                id: ID!
                 title: String!
               }
 
               type Mutation {
                   addDesk(desk: Desk): Boolean
-                  removeDesk(id: Int!): Boolean
+                  removeDesk(id: ID!): Boolean
               }
       
               type Query {
-                cards(deskId: Int): [Card]
+                cards(deskId: ID): [Card]
                 desks: [Desk]
               }
             `

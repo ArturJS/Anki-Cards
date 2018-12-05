@@ -54,7 +54,7 @@ export default {
     removeDesk(deskId) {
       this.$apollo.mutate({
         mutation: gql`
-          mutation($id: Int!) {
+          mutation($id: ID!) {
             removeDesk(id: $id) @client
           }
         `,

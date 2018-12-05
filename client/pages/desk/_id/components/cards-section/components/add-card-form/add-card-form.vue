@@ -1,30 +1,36 @@
 <template>
-  <form 
-    class="add-card-form" 
-    @submit.prevent="handleSubmit">
+  <form
+    class="add-card-form"
+    @submit.prevent="handleSubmit"
+  >
     <div class="form-field">
-      <input 
-        v-model="question" 
-        class="form-input" 
-        type="text" 
-        placeholder="Enter question">
+      <input
+        v-model="question"
+        class="form-input"
+        type="text"
+        placeholder="Enter question"
+      >
     </div>
     <div class="form-field">
-      <input 
-        v-model="answer" 
-        class="form-input" 
-        type="text" 
-        placeholder="Enter answer">
+      <input
+        v-model="answer"
+        class="form-input"
+        type="text"
+        placeholder="Enter answer"
+      >
     </div>
-    <button 
-      type="submit" 
-      class="btn btn-primary btn-submit">
+    <button
+      type="submit"
+      class="btn btn-primary btn-submit"
+    >
       Add card
     </button>
   </form>
 </template>
 
 <script>
+import nanoId from 'nano-id';
+
 export default {
   data() {
     return {
@@ -39,7 +45,7 @@ export default {
       }
 
       this.$emit('submit', {
-        id: Math.random(),
+        id: nanoId(),
         question: this.question,
         answer: this.answer
       });

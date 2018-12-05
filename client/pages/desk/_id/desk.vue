@@ -13,7 +13,7 @@ export default {
   },
   computed: {
     deskId() {
-      return +this.$route.params.id;
+      return this.$route.params.id;
     }
   }
 };
