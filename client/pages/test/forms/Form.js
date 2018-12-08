@@ -39,7 +39,6 @@ export default {
       default: () => {}
     },
     subscription: Object,
-    validate: [Function, Array],
     validationSchema: Object
   },
 
@@ -62,13 +61,7 @@ export default {
 
   methods: {
     getValidator() {
-      if (this.validationSchema) {
-        return createValidatorFromSchema(this.validationSchema);
-      }
-
-      return Array.isArray(this.validate)
-        ? composeFormValidators(this.validate)
-        : this.validate;
+      return createValidatorFromSchema(this.validationSchema);
     },
     handleSubmit(e) {
       e && e.preventDefault();
