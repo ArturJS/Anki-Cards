@@ -1,5 +1,5 @@
 import text from './text';
-import { registerFields } from '../forms';
+import { registerFields } from 'vue-formik';
 
 registerFields([
   {

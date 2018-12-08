@@ -27,9 +27,9 @@
 </template>
 
 <script>
+import { Form, Field } from 'vue-formik';
 import * as yup from 'yup';
 import './controls'; // necessary to register all custom field
-import { Form, Field } from './forms';
 
 const sleep = delayMs =>
   new Promise(resolve => {

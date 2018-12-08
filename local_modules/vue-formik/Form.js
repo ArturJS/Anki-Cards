@@ -82,7 +82,7 @@ export default {
 
   render(h) {
     return (
-      <form class={['vue-formik', this.class]} onSubmit={this.handleSubmit}>
+      <form class={['vf-form', this.class]} onSubmit={this.handleSubmit}>
         {getChildren(this.$slots.default)}
       </form>
     );
