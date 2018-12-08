@@ -1,3 +1,4 @@
+import VueTypes from 'vue-types';
 import { fieldSubscriptionItems } from 'final-form';
 import { getChildren, composeFieldValidators } from './utils';
 
@@ -19,6 +20,12 @@ export default {
   inject: ['finalForm'],
 
   props: {
+    type: VueTypes.custom(value => {
+      return VueTypes.utils.validate(
+        value,
+        VueTypes.oneOf(Object.keys(fieldsMap))
+      );
+    }, 'Wrong field type!'),
     name: {
       required: true,
       type: String
@@ -72,8 +79,8 @@ export default {
 
   methods: {
     renderRegisteredComponent(createElement) {
-      const { blur, change, focus, value, name, ...meta } = this.fieldState;
-      const component = fieldsMap[name];
+      const { value, name, ...meta } = this.fieldState;
+      const component = fieldsMap[this.type];
 
       return createElement(component, {
         props: {
@@ -99,8 +106,7 @@ export default {
   },
 
   render(createElement) {
-    const { name } = this.fieldState;
-    const isRegisteredComponent = !!fieldsMap[name];
+    const isRegisteredComponent = !!fieldsMap[this.type];
 
     if (isRegisteredComponent) {
       return this.renderRegisteredComponent(createElement);
