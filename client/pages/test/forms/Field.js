@@ -72,11 +72,11 @@ export default {
   },
 
   methods: {
-    renderRegisteredComponent(createElement) {
+    renderRegisteredField(h) {
       const { blur, change, focus, value, name, ...meta } = this.fieldState;
       const component = fieldsMap[this.type];
 
-      return createElement(component, {
+      return h(component, {
         props: {
           events: this.fieldEvents,
           value,
@@ -87,28 +87,16 @@ export default {
           }
         }
       });
-    },
-
-    renderChildren() {
-      const { blur, change, focus, value, name, ...meta } = this.fieldState;
-      const children = this.$scopedSlots.default({
-        events: this.fieldEvents,
-        value,
-        name,
-        meta
-      });
-
-      return getChildren(children)[0];
     }
   },
 
-  render(createElement) {
-    const isRegisteredComponent = !!fieldsMap[this.type];
+  render(h) {
+    const isRegisteredField = !!fieldsMap[this.type];
 
-    if (isRegisteredComponent) {
-      return this.renderRegisteredComponent(createElement);
-    } else {
-      return this.renderChildren();
+    if (!isRegisteredField) {
+      throw new Error(`Field with type="${this.type}" not found!`);
     }
+
+    return this.renderRegisteredField(h);
   }
 };
