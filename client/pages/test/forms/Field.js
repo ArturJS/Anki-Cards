@@ -1,6 +1,6 @@
 import VueTypes from 'vue-types';
 import { fieldSubscriptionItems } from 'final-form';
-import { getChildren, composeFieldValidators } from './utils';
+import { getChildren } from './utils';
 
 const fieldsMap = {};
 
@@ -30,7 +30,6 @@ export default {
       required: true,
       type: String
     },
-    validate: [Function, Array],
     subscription: Object
   },
 
@@ -54,12 +53,7 @@ export default {
         this.fieldState = fieldState;
         this.$emit('change', fieldState);
       },
-      subscription,
-      {
-        getValidator: Array.isArray(this.validate)
-          ? composeFieldValidators(this.validate)
-          : () => this.validate
-      }
+      subscription
     );
   },
 
