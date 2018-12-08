@@ -16,6 +16,7 @@ module.exports = {
   plugins: ['vue', 'prettier', 'jest'],
   // add your custom rules here
   rules: {
+    'vue/require-default-prop': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }

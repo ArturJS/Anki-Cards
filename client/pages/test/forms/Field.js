@@ -1,6 +1,18 @@
 import { fieldSubscriptionItems } from 'final-form';
 import { getChildren, composeFieldValidators } from './utils';
 
+const fieldsMap = {};
+
+const registerField = ({ name, component }) => {
+  fieldsMap[name] = component;
+};
+
+export const registerFields = fields => {
+  fields.forEach(field => {
+    registerField(field);
+  });
+};
+
 export default {
   name: 'final-field',
 
@@ -58,16 +70,42 @@ export default {
     }
   },
 
-  render() {
-    const { blur, change, focus, value, name, ...meta } = this.fieldState;
+  methods: {
+    renderRegisteredComponent(createElement) {
+      const { blur, change, focus, value, name, ...meta } = this.fieldState;
+      const component = fieldsMap[name];
 
-    const children = this.$scopedSlots.default({
-      events: this.fieldEvents,
-      value,
-      name,
-      meta
-    });
+      return createElement(component, {
+        props: {
+          events: this.fieldEvents,
+          value,
+          name,
+          meta
+        }
+      });
+    },
 
-    return getChildren(children)[0];
+    renderChildren() {
+      const { blur, change, focus, value, name, ...meta } = this.fieldState;
+      const children = this.$scopedSlots.default({
+        events: this.fieldEvents,
+        value,
+        name,
+        meta
+      });
+
+      return getChildren(children)[0];
+    }
+  },
+
+  render(createElement) {
+    const { name } = this.fieldState;
+    const isRegisteredComponent = !!fieldsMap[name];
+
+    if (isRegisteredComponent) {
+      return this.renderRegisteredComponent(createElement);
+    } else {
+      return this.renderChildren();
+    }
   }
 };
