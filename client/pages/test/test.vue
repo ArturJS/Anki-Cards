@@ -4,27 +4,20 @@
       :submit="handleSubmit"
       :initialValues="initialValues"
       :validationSchema="validationSchema"
+      class="test-form"
       @change="updateState"
     >
-      <form
-        slot-scope="props"
-        @submit="props.handleSubmit"
-      >
-        <Field
-          type="text"
-          name="email"
-        />
-        <Field
-          type="text"
-          name="other"
-        />
-        <button
-          :disabled="props.submitting"
-          type="submit"
-        >
-          {{ props.submitting ? 'Submitting' : 'Submit' }}
-        </button>
-      </form>
+      <Field
+        type="text"
+        name="email"
+      />
+      <Field
+        type="text"
+        name="other"
+      />
+      <button type="submit">
+        Submit
+      </button>
     </Form>
 
     <pre v-if="formState">
