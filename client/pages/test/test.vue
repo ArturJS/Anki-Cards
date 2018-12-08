@@ -3,6 +3,7 @@
     <Form
       :submit="handleSubmit"
       :initialValues="initialValues"
+      :validationSchema="validationSchema"
       @change="updateState"
     >
       <form
@@ -10,8 +11,12 @@
         @submit="props.handleSubmit"
       >
         <Field
-          :validate="required"
-          name="text"
+          type="text"
+          name="email"
+        />
+        <Field
+          type="text"
+          name="other"
         />
         <button
           :disabled="props.submitting"
@@ -29,8 +34,9 @@
 </template>
 
 <script>
+import * as yup from 'yup';
+import './controls'; // necessary to register all custom field
 import { Form, Field } from './forms';
-import './controls'; // necessary to register all custom fields
 
 const sleep = delayMs =>
   new Promise(resolve => {
@@ -52,14 +58,24 @@ export default {
     };
   },
 
+  computed: {
+    validationSchema() {
+      return yup.object().shape({
+        email: yup
+          .string()
+          .email('Please enter email in correct format')
+          .required('Please enter email'),
+        other: yup.string().required('Please enter other')
+      });
+    }
+  },
+
   methods: {
     async handleSubmit(state) {
       await sleep(2000);
       console.log(state);
     },
-    required(v) {
-      return v ? null : 'This field is required!';
-    },
+
     updateState(state) {
       this.formState = state;
     }

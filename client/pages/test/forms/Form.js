@@ -7,6 +7,28 @@ const defaultSubscription = formSubscriptionItems.reduce((result, key) => {
   return result;
 }, {});
 
+const createValidatorFromSchema = validationSchema => {
+  return async values => {
+    try {
+      await validationSchema.validate(values, {
+        abortEarly: false
+      });
+    } catch (error) {
+      const errors = error.inner.reduce(
+        (collectedErrors, { path, message }) => {
+          return {
+            ...collectedErrors,
+            [path]: message
+          };
+        },
+        {}
+      );
+
+      return errors;
+    }
+  };
+};
+
 export default {
   name: 'final-form',
 
@@ -17,7 +39,8 @@ export default {
       default: () => {}
     },
     subscription: Object,
-    validate: [Function, Array]
+    validate: [Function, Array],
+    validationSchema: Object
   },
 
   provide() {
@@ -31,15 +54,22 @@ export default {
       finalForm: createForm({
         onSubmit: this.submit,
         initialValues: this.initialValues,
-        validate: Array.isArray(this.validate)
-          ? composeFormValidators(this.validate)
-          : this.validate
+        validate: this.getValidator()
       }),
       formState: null
     };
   },
 
   methods: {
+    getValidator() {
+      if (this.validationSchema) {
+        return createValidatorFromSchema(this.validationSchema);
+      }
+
+      return Array.isArray(this.validate)
+        ? composeFormValidators(this.validate)
+        : this.validate;
+    },
     handleSubmit(e) {
       e && e.preventDefault();
       this.finalForm.submit();
