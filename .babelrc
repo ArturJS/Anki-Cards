@@ -6,7 +6,8 @@
         "root": ["./"],
         "alias": {
           "apollo-client-resolvers": "./local_modules/apollo-client-resolvers",
-          "nano-id": "./local_modules/nano-id"
+          "nano-id": "./local_modules/nano-id",
+          "vue-formik": "./local_modules/vue-formik"
         }
       }
     ]
