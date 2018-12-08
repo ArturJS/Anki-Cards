@@ -28,7 +28,7 @@ export default {
       focus: VueTypes.func.isRequired
     }).isRequired,
     meta: VueTypes.shape({
-      error: VueTypes.string.def(null),
+      error: VueTypes.string.isRequired,
       touched: VueTypes.bool.isRequired,
       submitFailed: VueTypes.bool.isRequired
     }).loose.isRequired

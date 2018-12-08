@@ -79,7 +79,7 @@ export default {
 
   methods: {
     renderRegisteredComponent(createElement) {
-      const { value, name, ...meta } = this.fieldState;
+      const { blur, change, focus, value, name, ...meta } = this.fieldState;
       const component = fieldsMap[this.type];
 
       return createElement(component, {
@@ -87,7 +87,10 @@ export default {
           events: this.fieldEvents,
           value,
           name,
-          meta
+          meta: {
+            ...meta,
+            error: meta.error || ''
+          }
         }
       });
     },
