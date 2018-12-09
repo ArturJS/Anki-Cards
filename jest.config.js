@@ -8,16 +8,18 @@ module.exports = {
   testURL: 'http://localhost:8080',
   transform: {
     '\\.js$': '<rootDir>/node_modules/babel-jest',
-    '^.+\\.scss$': './scripts/tools/jest/css-transform.js'
+    '^.+\\.scss$': './scripts/tools/jest/css-transform.js',
+    '.*\\.(vue)$': '<rootDir>/node_modules/vue-jest'
   },
   testRegex: '(/__tests__/.*|\\.(test))\\.(js)$',
   transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js)$'],
-  moduleFileExtensions: ['js'],
+  moduleFileExtensions: ['js', 'vue'],
   moduleDirectories: ['node_modules'],
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/scripts/tools/jest/assets-transform.js',
     '\\.(css|less|scss)$': 'identity-obj-proxy'
   },
-  verbose: true
+  verbose: true,
+  snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue']
 };
